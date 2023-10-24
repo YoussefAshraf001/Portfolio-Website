@@ -123,8 +123,7 @@ export default function Home() {
             <p className="py-1 font-semibold">
             Internship at Roche Pharmaceutical company 
             <br></br>
-            (03/2021 - 08/2022) at Nile
-            University
+            (03/2021 - 08/2022)
             </p>
             <br></br>
             <h3 className="text-[#4c9fd2] text-lg font-medium pb-2">Overview</h3>
