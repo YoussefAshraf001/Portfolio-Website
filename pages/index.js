@@ -224,7 +224,7 @@ export default function Home() {
 
             {/* FOURTH PROJECT */}
             <div className="basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full bg-white hover:scale-105 transition-all duration-500">
-              <img src="web3.png" className="object-cover" width={'100%'} height={'100%'} layout="responsive"/>
+              <img src="web4.png" className="object-cover" width={'100%'} height={'100%'} layout="responsive"/>
               <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">Weather App</h1>
                 <p class="flex-1 mb-3 text-black text-start font-light text-md md:text-lg">A React JS weather app using the OpenWeatherMap API. While using axios to connect with our API. To present a live and dynamic degree mark based on your search.
