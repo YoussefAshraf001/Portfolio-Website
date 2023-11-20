@@ -8,7 +8,6 @@ import {
   AiOutlineGithub,
 } from "react-icons/ai";
 import Image from "next/image";
-//import me from "../public/welcome.jpg";
 import me from "../public/graduate.png";
 import design from "../public/design.png";
 import code from "../public/code.svg";
@@ -28,7 +27,7 @@ export default function Home() {
       <main className="px-10 bg-white md:px-20 lg:px-40 dark:bg-black">
         <section className="min-h-screen">
           <navbar className="py-8 mb-12 flex justify-between dark:text-white">
-            <h1 className="text-3xl font-bold font-burtons text-black dark:text-white lg:text-4xl">Y A</h1>
+            <h1 className="text-3xl font-bold font-burtons text-black dark:text-white lg:text-4xl">YA</h1>
             <ul className="flex item-center">
               <li className="cursor-pointer text-2xl">
                 <BsFillMoonStarsFill
@@ -41,8 +40,8 @@ export default function Home() {
           </navbar>
           <div className="text-center p-10 py-10">
             <h2 className="text-5xl py-1 bg-gradient-to-r from-blue-600 via-red-500 to-indigo-400 inline-block text-transparent bg-clip-text font-medium md:text-6xl">Youssef Ashraf</h2>
-            <h3 className="text-2xl py-1 md:text-5xl md:py-3 dark:text-white">Developer And Designer</h3>
-            <h4 className="text-xl md:text-3xl dark:text-white">Front-End Developer</h4>
+            <h3 className="uppercase text-2xl py-1 md:text-5xl md:py-3 dark:text-white">Developer And Designer</h3>
+            <h4 className="text-xl md:text-3xl dark:text-white">Junior Full Stack Developer</h4>
           </div>
           <div className="text-5xl flex justify-center gap-16 py-3 text-gray-600 dark:text-gray-400">
           <a href="https://www.instagram.com/lonewolf_x24/" target="_blank">
@@ -78,7 +77,6 @@ export default function Home() {
             <h4 className="py-4 text-[#446cb5]">Design Tools I use for UI/UX</h4>
             <p className="text-gray-800 py-1">Adobe XD</p>
             <p className="text-gray-800 py-1">Figma</p>
-            <p className="text-gray-800 py-1">Illustrator</p>
             <p className="text-gray-800 py-1">Photoshop</p>
           </div>
           <div className="text-center shadow-lg p-10 rounded-xl my-10 dark:bg-white flex-1">
@@ -94,7 +92,7 @@ export default function Home() {
             <p className="text-gray-800">CSS</p>
             <p className="text-gray-800">Tailwind</p>
             <p className="text-gray-800">Javascript</p>
-            <p className="text-gray-800">React.js</p>
+            <p className="text-gray-800">React</p>
             <p className="text-gray-800">Next.js</p>
             <p className="text-gray-800">Node.js</p>
             <p className="text-gray-800">API</p>
@@ -108,7 +106,6 @@ export default function Home() {
             <ul>
             <p className="text-cyan-800 py-1 underline">Back-End</p>
             <p className="text-gray-800">Python</p>
-            <p className="text-gray-800">Linux</p>
             <p className="text-gray-800">Firebase</p>
             <p className="text-gray-800">C</p>
             <p className="text-gray-800">C++</p>
@@ -164,9 +161,8 @@ export default function Home() {
             </p>
           </div>
               
-    {/* for all the projects */} <div className="flex flex-col gap-5 py-10 lg:flex-row lg:flex-wrap mx-auto">
-          
-          {/* FIRST PROJECT */}
+          {/* for all the projects */} <div className="flex flex-col gap-5 py-10 lg:flex-row lg:flex-wrap mx-auto">
+          {/* FIRST PROJECT: AlphaX */}
             <div className="basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full bg-white hover:scale-105 transition-all duration-500">
               <img src="web1.jpg" className="object-cover" width={'100%'} height={'100%'} layout="responsive"/>
               <div>
@@ -189,7 +185,7 @@ export default function Home() {
               </div>
 
 
-            {/* SECOND PROJECT */}
+            {/* SECOND PROJECT: Online Library Management System */}
             <div className="basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full bg-white hover:scale-105 transition-all duration-500">
               <img src="web2.png" className="object-cover" width={'100%'} height={'100%'} layout="responsive"/>
               <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
@@ -203,7 +199,7 @@ export default function Home() {
               </div>
 
 
-            {/* THIRD PROJECT */}
+            {/* THIRD PROJECT: The Valley of Fear */}
             <div className="basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full bg-white hover:scale-105 transition-all duration-500">
               <img src="web3.png" className="object-cover" width={'100%'} height={'100%'} layout="responsive"/>
               <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
@@ -222,14 +218,14 @@ export default function Home() {
               </div>
 
 
-            {/* FOURTH PROJECT */}
+            {/* FOURTH PROJECT: Weather App */}
             <div className="basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full bg-white hover:scale-105 transition-all duration-500">
               <img src="web4.jpg" className="object-cover" width={'100%'} height={'100%'} layout="responsive"/>
               <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">Weather App</h1>
                 <p class="flex-1 mb-3 text-black text-start font-light text-md md:text-lg">A React JS weather app using the OpenWeatherMap API. While using axios to connect with our API. To present a live and dynamic degree mark based on your search.
                 </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base">Uses: <span class="font-light text-sm">React</span></p>
+                <p class="mb-2 md:mb-6 text-heading font-regular text-base">Uses: <span class="font-light text-sm">React and Tailwind CSS</span></p>
                 <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
                   <a href="https://weather-app-sigma-five-99.vercel.app/" target="_blank"><div class="flex items-center gap-1 text-base font-regular underline">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-code-slash" viewBox="0 0 16 16"> <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z"/> 
@@ -240,10 +236,56 @@ export default function Home() {
                 </svg>View Code</div></a></div></div>
               </div>
 
+            {/* FIFTH PROJECT: The Dream Room */}
+            <div className="basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full bg-white hover:scale-105 transition-all duration-500">
+              <img src="web5.png" className="object-cover" width={'100%'} height={'100%'} layout="responsive"/>
+              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
+                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">The Dream Room</h1>
+                <p class="flex-1 mb-3 text-black text-start font-light text-md md:text-lg">Hey there! Have you ever wondered what's out there beyond our humble planet? Well, buckle up because I've got the perfect project for you. 
+              Imagine having a one-stop shop where you can easily access information about any planet, galaxy, or astronomical document that catches your fancy. 
+              We're talking about some of the most comprehensive databases that compile all the mind-blowing celestial knowledge in one place that can easily be accessed with NASA API. 
+              Whether you want to learn more about the mysterious black holes lurking in distant galaxies or simply gaze at awe-inspiring images of nebulas, this project will be your ultimate cosmic playground. 
+              It will allow you to explore and understand the vast expanses of our universe with just a few clicks. So go ahead and get lost in space, my friend—the wonders of our cosmos are waiting for you!
+                </p>
+                <p class="mb-2 md:mb-6 text-heading font-regular text-base">Uses: <span class="font-light text-sm">React, HTML and CSS</span></p>
+                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
+                  <a href="https://the-dream-room-nasa-nwkke9be2-youssef-ashraf.vercel.app/" target="_blank"><div class="flex items-center gap-1 text-base font-regular underline">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-code-slash" viewBox="0 0 16 16"> <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z"/> 
+                </svg>Live Preview</div></a>
+                
+                <a href="https://github.com/YoussefAshraf001/The-Dream-Room--NasaAPI" target="_blank">
+                <div class="flex items-center gap-1 text-base  font-regular underline"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
+                </svg>View Code</div></a></div></div>
+              </div>
+              
+
+              {/* SIXTH PROJECT: To Do List (Harry Potter Edition) */}
+            <div className="basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full bg-white hover:scale-105 transition-all duration-500">
+              <img src="web6.png" className="object-cover" width={'100%'} height={'100%'} layout="responsive"/>
+              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
+                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">To Do List (Harry Potter Edition)</h1>
+                <p class="flex-1 mb-3 text-black text-start font-light text-md md:text-lg">So, picture this - a to-do app with a Harry Potter theme, how cool would that be? As a massive fan of the magical world created by J.K. 
+                Rowling, having my to-do list organized and managed in a Hogwarts-inspired style seems like a dream come true. 
+                Imagine assigning tasks like "Brew potion for Snape's class" or "Practice Quidditch skills with friends." With wand-waving animations and spells unlocking achievements, this app could make even the most mundane errands feel enchanting. 
+                It could have customizable house-themed templates, sorting hats to prioritize tasks, and perhaps even deliver reminders in the voices of characters from the series. 
+                A touch of magic mixed with everyday organization - that's what this quirky Harry Potter themed to-do app could bring to our lives!
+                </p>
+                <p class="mb-2 md:mb-6 text-heading font-regular text-base">Uses: <span class="font-light text-sm">React and CSS</span></p>
+                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
+                  <a href="https://to-do-list-omega-plum.vercel.app/" target="_blank"><div class="flex items-center gap-1 text-base font-regular underline">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-code-slash" viewBox="0 0 16 16"> <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z"/> 
+                </svg>Live Preview</div></a>
+                
+                <a href="https://github.com/YoussefAshraf001/To-Do-List_-HarryPotterEdition-" target="_blank">
+                <div class="flex items-center gap-1 text-base  font-regular underline"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
+                </svg>View Code</div></a></div></div>
+              </div>
+              
+
             </div>
         </section>
 
-                                                                                            {/* CONTACT US */}
+                                                                                            {/* CONTACT ME */}
         <hr></hr>
         <div>
           <br></br>
