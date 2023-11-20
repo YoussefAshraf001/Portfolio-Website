@@ -249,7 +249,7 @@ export default function Home() {
                 </p>
                 <p class="mb-2 md:mb-6 text-heading font-regular text-base">Uses: <span class="font-light text-sm">React, HTML and CSS</span></p>
                 <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a href="https://the-dream-room-nasa-nwkke9be2-youssef-ashraf.vercel.app/" target="_blank"><div class="flex items-center gap-1 text-base font-regular underline">
+                  <a href="https://the-dream-room-nasa-api.vercel.app/" target="_blank"><div class="flex items-center gap-1 text-base font-regular underline">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-code-slash" viewBox="0 0 16 16"> <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z"/> 
                 </svg>Live Preview</div></a>
                 
