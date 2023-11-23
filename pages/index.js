@@ -94,7 +94,6 @@ export default function Home() {
             <p className="text-gray-800">Javascript</p>
             <p className="text-gray-800">React</p>
             <p className="text-gray-800">Next.js</p>
-            <p className="text-gray-800">Node.js</p>
             <p className="text-gray-800">API</p>
             </ul>
             <ul>
@@ -106,6 +105,7 @@ export default function Home() {
             <ul>
             <p className="text-cyan-800 py-1 underline">Back-End</p>
             <p className="text-gray-800">Python</p>
+            // <p className="text-gray-800">Node.js</p>
             <p className="text-gray-800">Firebase</p>
             <p className="text-gray-800">C</p>
             <p className="text-gray-800">C++</p>
