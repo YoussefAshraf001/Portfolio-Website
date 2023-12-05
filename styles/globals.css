@@ -5,21 +5,21 @@
 /* FONT CUSTOMIZATION */
 @font-face {
   font-family: 'CDBold';
-  src: url("../public/fonts/CaviarDreams_Bold.ttf");
+  src: url("../public/CaviarDreams_Bold.ttf");
 }
 @font-face {
   font-family: 'QSDash';
-  src: url("../public/fonts/Quicksand_Dash.otf");
+  src: url("../public/Quicksand_Dash.otf");
 }
 
 @font-face {
   font-family: 'LMRegular';
-  src: url("../public/fonts/LEMONMILK-Regular.otf");
+  src: url("../public/LEMONMILK-Regular.otf");
 }
 
 @font-face {
   font-family: 'QsBook';
-  src: url("../public/fonts/Quicksand_Book.otf");
+  src: url("../public/Quicksand_Book.otf");
 }
 
 
