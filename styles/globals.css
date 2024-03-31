@@ -4,95 +4,108 @@
 
 /* FONT CUSTOMIZATION */
 @font-face {
-  font-family: 'CDBold';
+  font-family: "CDBold";
   src: url("../public/fonts/CaviarDreams_Bold.ttf");
 }
 @font-face {
-  font-family: 'QSDash';
+  font-family: "QSDash";
   src: url("../public/fonts/Quicksand_Dash.otf");
 }
 
 @font-face {
-  font-family: 'LMRegular';
+  font-family: "LMRegular";
   src: url("../public/fonts/LEMONMILK-Regular.otf");
 }
 
 @font-face {
-  font-family: 'QsBook';
+  font-family: "QsBook";
   src: url("../public/fonts/Quicksand_Book.otf");
 }
-
 
 a {
   color: inherit;
   text-decoration: none;
 }
 
-h1{
-  font-family: 'LMRegular';
+h1 {
+  font-family: "LMRegular";
 }
-h2{
-  font-family: 'LMRegular';
-}
-
-h3{
-  font-family: 'QSDash';
+h2 {
+  font-family: "LMRegular";
 }
 
-h4{
-  font-family: 'QsBook';
+h3 {
+  font-family: "QSDash";
 }
 
-p{
-  font-family: 'QsBook';
+h4 {
+  font-family: "QsBook";
+}
+
+p {
+  font-family: "QsBook";
 }
 
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'QsBook';
+  font-family: "QsBook";
 }
-
 
 h2 {
   overflow: hidden; /* Ensures the content is not revealed until the animation */
-  border-right: .05em solid rgb(255, 255, 255); /* The typwriter cursor */
+  border-right: 0.05em solid rgb(255, 255, 255); /* The typwriter cursor */
   margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-  letter-spacing: .10em; /* Adjust as needed */
-  animation: 
-      typing 2s steps(30, end),
-      blink-caret 1s step-end infinite;
+  letter-spacing: 0.1em; /* Adjust as needed */
+  animation: typing 2s steps(30, end), blink-caret 1s step-end infinite;
 }
 
 @media screen and (max-width: 600px) {
   @keyframes typing {
-    from { width: 0 }
-    to { width: 90% }
-  }
-    h2 {
-      border-style: hidden;
+    from {
+      width: 0;
     }
+    to {
+      width: 90%;
+    }
+  }
+  h2 {
+    border-style: hidden;
+  }
 }
 
 @media screen and (min-width: 750px) {
   @keyframes typing {
-    from { width: 0 }
-    to { width: 75% }
+    from {
+      width: 0;
+    }
+    to {
+      width: 75%;
+    }
   }
 }
 
 @media screen and (min-width: 1200px) {
   @keyframes typing {
-    from { width: 0 }
-    to { width: 35% }
+    from {
+      width: 0;
+    }
+    to {
+      width: 35%;
+    }
   }
 }
 
 /* The typewriter cursor effect */
 @keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: rgb(255, 255, 255); }
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: rgb(255, 255, 255);
+  }
 }
 
 * {
