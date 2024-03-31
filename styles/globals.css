@@ -2,44 +2,153 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+/* FONT CUSTOMIZATION */
+@font-face {
+  font-family: 'CDBold';
+  src: url("../public/fonts/CaviarDreams_Bold.ttf");
 }
+@font-face {
+  font-family: 'QSDash';
+  src: url("../public/fonts/Quicksand_Dash.otf");
+}
+
+@font-face {
+  font-family: 'LMRegular';
+  src: url("../public/fonts/LEMONMILK-Regular.otf");
+}
+
+@font-face {
+  font-family: 'QsBook';
+  src: url("../public/fonts/Quicksand_Book.otf");
+}
+
 
 a {
   color: inherit;
   text-decoration: none;
 }
 
+h1{
+  font-family: 'LMRegular';
+}
+h2{
+  font-family: 'LMRegular';
+}
+
+h3{
+  font-family: 'QSDash';
+}
+
+h4{
+  font-family: 'QsBook';
+}
+
+p{
+  font-family: 'QsBook';
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'QsBook';
+}
+
+
+h2 {
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: .05em solid rgb(255, 255, 255); /* The typwriter cursor */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .10em; /* Adjust as needed */
+  animation: 
+      typing 2s steps(30, end),
+      blink-caret 1s step-end infinite;
+}
+
+@media screen and (max-width: 600px) {
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 90% }
+  }
+    h2 {
+      border-style: hidden;
+    }
+}
+
+@media screen and (min-width: 750px) {
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 75% }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 35% }
+  }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: rgb(255, 255, 255); }
+}
+
 * {
-  box-sizing: border-box;
-}
-@font-face {
-  font-family: "burtons";
-  src: url("../public/Burtons.otf");
+  box-sizing: content-box;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.452) black;
 }
 
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
+/* NAVBAR BUTTONS */
+.bn30 {
+  border: 5em;
+  cursor: pointer;
+  outline: none;
+  font-size: 16px;
+  -webkit-transform: translate(0);
+  transform: translate(0);
+  background-image: linear-gradient(45deg, #4568dc, #b06ab3);
+  padding: 0.7em 2em;
+  border-radius: 65px;
+  box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.438);
+  -webkit-transition: box-shadow 0.25s;
+  transition: box-shadow 0.25s;
+  color: white;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
+.bn30 .text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(45deg, #4568dc, #b06ab3);
 }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
+.bn30:after {
+  content: "";
+  border-radius: 18px;
+  position: absolute;
+  margin: 4px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+  background: #0e0e10;
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+.bn30:hover {
+  background-image: linear-gradient(-45deg, #4568dc, #b06ab3);
+  box-shadow: 0 12px 24px rgba(128, 128, 128, 0.1);
+}
+
+.bn30:hover .text {
+  background-image: linear-gradient(-45deg, #4568dc, #b06ab3);
+}
+
+/* CV BUTTON */
+.bn46 {
+  width: 150px;
+  height: 50px;
 }
