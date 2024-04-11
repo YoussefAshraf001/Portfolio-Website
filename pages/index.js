@@ -621,7 +621,7 @@ export default function Home() {
             </div>
 
             {/* 7th PROJECT: Questica */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-fullhover:scale-105 transition-all duration-500">
+            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
               <img
                 src="web7.png"
                 className="object-cover"
@@ -885,7 +885,7 @@ export default function Home() {
             </div>
 
             {/* 11th PROJECT: Quiz App */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-fullhover:scale-105 transition-all duration-500">
+            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
               <img
                 src="web11.png"
                 className="object-cover"
@@ -1018,7 +1018,7 @@ export default function Home() {
             </div>
 
             {/* 13th PROJECT: Tic-Tac-Toe */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-fullhover:scale-105 transition-all duration-500">
+            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
               <img
                 src="web13.png"
                 className="object-cover"
