@@ -56,7 +56,7 @@ export default function Home() {
               <h2 className="text-5xl py-1 bg-gradient-to-r from-blue-600 via-red-500 to-indigo-400 inline-block text-transparent bg-clip-text font-medium md:text-6xl md:whitespace-nowrap lg:whitespace-nowrap">
                 Youssef Ashraf
               </h2>
-              <h4 className="text-5xl text-black leading-[50px] font-bold py-6 uppercase relative dark:text-white">
+              <h4 className="text-5xl text-black leading-[50px] font-bold py-6 uppercase relative dark:text-white text-center">
                 Developer And Designer
               </h4>
               <h4 className="text-xl md:text-3xl dark:text-white ">
