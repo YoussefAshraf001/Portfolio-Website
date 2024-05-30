@@ -258,7 +258,6 @@ export default function Home() {
           <div className="flex flex-col gap-7 py-10 lg:flex-row lg:flex-wrap mx-auto px-6">
             {/* 1st PROJECT: AlphaX */}
             <div className="border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full bg-black text-white hover:scale-105 transition-all duration-500">
-            <div className="border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full bg-black text-white hover:scale-105 transition-all duration-500">
               <img
                 src="/Projects/web1.png"
                 className="object-cover"
@@ -270,7 +269,6 @@ export default function Home() {
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
                   Netflix Clone
                 </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                 <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                   AlphaX is designed to present you with the newest release and
                   pick your taste and preferences from multiple catagories.Made
@@ -341,7 +339,6 @@ export default function Home() {
 
             {/* 2nd PROJECT: The Dream Room */}
             <div className="border-[2px] border-white text-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-            <div className="border-[2px] border-white text-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
               <img
                 src="/Projects/web5.png"
                 className="object-cover"
@@ -353,7 +350,6 @@ export default function Home() {
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl dashed">
                   NASA's Dream Room
                 </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                 <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                   With access to a vast collection of data and resources. By
                   leveraging this API, developers can retrieve information about
@@ -416,7 +412,6 @@ export default function Home() {
 
             {/* 3rd PROJECT: To Do List (Harry Potter Edition) */}
             <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
               <img
                 src="/Projects/web6.png"
                 className="object-cover"
@@ -426,10 +421,8 @@ export default function Home() {
               />
               <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
                 <h1 class=" mb-4 font-medium text-start text-xl md:text-2xl">
-                <h1 class=" mb-4 font-medium text-start text-xl md:text-2xl">
                   To Do List
                 </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                 <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                   A Hogwarts-inspired To-Do app seems like a dream come true.
                   This app could make even the most mundane errands feel
@@ -487,7 +480,6 @@ export default function Home() {
 
             {/* 4th PROJECT: Weather App */}
             <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full  hover:scale-105 transition-all duration-500">
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full  hover:scale-105 transition-all duration-500">
               <img
                 src="/Projects/web4.jpg"
                 className="object-cover"
@@ -499,7 +491,6 @@ export default function Home() {
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
                   Weather App
                 </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                 <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                   It's like having your own personal meteorologist in the palm
                   of your hand! This nifty little app gives you detailed and
@@ -566,7 +557,6 @@ export default function Home() {
 
             {/* 5th PROJECT: The Valley of Fear */}
             <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full  hover:scale-105 transition-all duration-500">
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full  hover:scale-105 transition-all duration-500">
               <img
                 src="/Projects/web3.png"
                 className="object-cover"
@@ -578,7 +568,6 @@ export default function Home() {
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
                   The Valley of Fear
                 </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                 <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                   This is a such a minor project but means alot to me.
                   Showcasing one of my favorite novels, The Valley of Fear. is
@@ -638,7 +627,6 @@ export default function Home() {
 
             {/* 6th PROJECT: Online Library Management System */}
             <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
               <img
                 src="/Projects/web2.png"
                 className="object-cover"
@@ -650,7 +638,6 @@ export default function Home() {
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
                   Online Library Management System
                 </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                 <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                   This is a library management system which is a Web based
                   Application that is designed to manage all the functions of a
@@ -689,7 +676,6 @@ export default function Home() {
 
             {/* 7th PROJECT: Questica */}
             <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
               <img
                 src="/Projects/web7.png"
                 className="object-cover"
@@ -701,7 +687,6 @@ export default function Home() {
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
                   Questica
                 </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                 <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                   Seeking new and engaging ways to challenge yourself ? this is
                   your sign join us and showcase your skills.
@@ -753,7 +738,6 @@ export default function Home() {
 
             {/* 8th PROJECT: Elegant Clothing */}
             <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
               <img
                 src="/Projects/web8.png"
                 className="object-cover"
@@ -765,7 +749,6 @@ export default function Home() {
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
                   Elegant Clothing
                 </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                 <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                   A high-end boutique that specializes in providing luxurious
                   and sophisticated apparel for discerning customers. The store
@@ -823,7 +806,6 @@ export default function Home() {
 
             {/* 9th PROJECT: Investment Calculator */}
             <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
               <img
                 src="/Projects/web9.png"
                 className="object-cover"
@@ -835,7 +817,6 @@ export default function Home() {
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
                   Investment Calculator
                 </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                 <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                   The Investment Calculator App is a powerful tool for
                   individuals looking to make informed financial decisions. This
@@ -893,7 +874,6 @@ export default function Home() {
 
             {/* 10th PROJECT: Time Game */}
             <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
               <img
                 src="/Projects/web10.png"
                 className="object-cover"
@@ -905,7 +885,6 @@ export default function Home() {
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
                   Time Game
                 </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                 <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                   People seek out new ways to challenge their cognitive
                   abilities and improve their time management skills. These apps
@@ -961,7 +940,6 @@ export default function Home() {
 
             {/* 11th PROJECT: Quiz App */}
             <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
               <img
                 src="/Projects/web11.png"
                 className="object-cover"
@@ -973,7 +951,6 @@ export default function Home() {
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
                   Quiz App
                 </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                 <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                   The Quiz App is a tool designed to test users' knowledge and
                   skills through a series of engaging quizzes. With its
@@ -1030,7 +1007,6 @@ export default function Home() {
             </div>
             {/* 12th PROJECT: Project Management */}
             <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
               <img
                 src="/Projects/web12.png"
                 className="object-cover"
@@ -1042,7 +1018,6 @@ export default function Home() {
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
                   Project Management
                 </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                 <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                   An App Designed to improve businesses and individuals
                   efficiently plan, track, and manage projects from inception to
@@ -1098,7 +1073,6 @@ export default function Home() {
 
             {/* 13th PROJECT: Tic-Tac-Toe */}
             <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
               <img
                 src="/Projects/web13.png"
                 className="object-cover"
@@ -1110,7 +1084,6 @@ export default function Home() {
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
                   Tic-Tac-Toe
                 </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                 <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                   Tic-Tac-Toe, also known as X and O, is a classic
                   paper-and-pencil game that has been enjoyed by children and
@@ -1169,7 +1142,6 @@ export default function Home() {
 
             {/* 14th PROJECT: PlacePicker */}
             <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
               <img
                 src="/Projects/web14.png"
                 className="object-cover"
@@ -1181,7 +1153,6 @@ export default function Home() {
                 <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
                   Place Picker
                 </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                 <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
                   For travelers looking to easily plan a quick getaway without
                   the hassle of extensive research, an app that allows users to
