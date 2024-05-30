@@ -13,8 +13,10 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.11.0",
+    "react-modal": "^3.16.1",
     "react-player": "^2.13.0",
     "react-responsive-carousel": "^3.2.23",
+    "react-typed": "^2.0.12",
     "taos": "^1.0.5"
   },
   "devDependencies": {
