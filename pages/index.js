@@ -1,1407 +1,793 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
-// import { BsFillMoonStarsFill } from "react-icons/bs";
 import {
-  AiOutlineWhatsApp,
   AiFillLinkedin,
   AiOutlineGithub,
+  AiOutlineWhatsApp,
 } from "react-icons/ai";
-
+import { FaWhatsapp, FaEnvelope } from "react-icons/fa";
+import { BsPersonWorkspace, BsFillMoonStarsFill } from "react-icons/bs";
+import { MdDraw, MdLightMode } from "react-icons/md";
+import { HiAcademicCap } from "react-icons/hi2";
+import { IoCodeSlashOutline } from "react-icons/io5";
+import { SiAdobexd } from "react-icons/si";
+import { CiPlay1 } from "react-icons/ci";
+import { DiPhotoshop } from "react-icons/di";
+import { IoIosTimer } from "react-icons/io";
 import { ReactTyped } from "react-typed";
 
-export default function Home() {
+import { projects } from "../projects.js";
+import Tabs from "../components/Tabs";
+import DownloadButton from "../components/DownloadButton.js";
+
+export const Home = () => {
+  const [selectedTab, setSelectedTab] = useState("All");
   const [darkMode, setDarkMode] = useState(true);
 
-  let subtitle;
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const tabs = ["All", "Real-World", "Others"];
+  const [showProjects, setShowProjects] = useState(true);
+  const [fade, setFade] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
-  function openModal() {
-    setIsOpen(true);
-  }
+  const mainRef = useRef(null);
+  const [triggerAnimation, setTriggerAnimation] = useState(false);
 
-  function closeModal() {
-    setIsOpen(false);
-  }
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTriggerAnimation(true);
+          setTimeout(() => setTriggerAnimation(false), 1000); // Reset animation state after it finishes
+        }
+      },
+      { threshold: 0.1 } // Trigger when 10% is visible
+    );
+
+    if (mainRef.current) {
+      observer.observe(mainRef.current);
+    }
+
+    return () => {
+      if (mainRef.current) {
+        observer.unobserve(mainRef.current);
+      }
+    };
+  }, [mainRef]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const filteredProjects = projects.filter((project) => {
+    return selectedTab === "All" || project.type === selectedTab;
+  });
+
+  useEffect(() => {
+    const handleTabChange = () => {
+      setFade(false);
+      setShowProjects(false);
+      setLoading(true);
+      const timer = setTimeout(() => {
+        setSelectedTab(selectedTab);
+        setFade(true);
+        setShowProjects(true);
+        setLoading(false);
+      }, 500);
+
+      return () => clearTimeout(timer);
+    };
+
+    handleTabChange();
+  }, [selectedTab]);
+
+  const handleNoLinkClick = () => {
+    setIsClicked(true);
+    setTimeout(() => setIsClicked(false), 800);
+  };
+
   return (
-    <div className={darkMode ? "dark" : ""}>
-      {/* HOME PAGE */}
+    <div
+      className={`${
+        darkMode ? "bg-gray-900 text-gray-200" : "bg-gray-100 text-gray-800"
+      } transition-colors duration-300`}
+    >
       <Head>
-        <title>Youssef Ashraf's Portofolio</title>
-        <meta name="description" content="Youssef Ashraf's Portofolio" />
+        <title>Youssef Ashraf's Portfolio</title>
+        <meta name="description" content="Youssef Ashraf's Portfolio" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className=" dark:bg-black">
-        <section id="beginning" className="min-h-screen">
-          <div>
-            <navbar className="text-black dark:text-white">
-              <ul className="flex items-center justify-center gap-6 py-[40px]">
-                <li>
-                  <a href="#projects">Projects</a>
-                </li>
-                <li>
-                  <a href="#skills">Skills</a>
-                </li>
-                <li>
-                  <a href="#contacts">Contact</a>
-                </li>
-                {/* <li className="cursor-pointer text-2xl px-1 py-1 border-black rounded-lg">
-                  <BsFillMoonStarsFill onClick={() => setDarkMode(!darkMode)} />
-                </li> */}
-              </ul>
-            </navbar>
-            <div className="text-center p-10 py-10">
-              <h2 className="text-5xl py-1 bg-gradient-to-r from-blue-600 via-red-500 to-indigo-400 inline-block text-transparent bg-clip-text font-medium md:text-6xl md:whitespace-nowrap lg:whitespace-nowrap">
-                Youssef Ashraf
-              </h2>
-              {/* <h4 className="text-5xl text-black leading-[50px] font-bold py-6 uppercase relative dark:text-white">
-                Developer And Designer
-              </h4> */}
-              <br />
-              <br />
-              <ReactTyped
-                className="text-4xl dark:text-white"
-                strings={[
-                  "Junior Front End Developer",
-                  "Junior Software Engineer",
-                  "Junior Web Developer",
-                ]}
-                typeSpeed={40}
-                backSpeed={50}
-                loop
-              />
+      <header
+        className={`sticky top-0 ${
+          darkMode ? "bg-gray-800" : "bg-white"
+        } shadow-lg z-50 transition-colors duration-300`}
+      >
+        <nav className="container mx-auto flex justify-between p-4 items-center">
+          {isScrolled ? (
+            <h2 className="text-xl text-center mr-6 md:py-1.5">
+              Youssef Ashraf
+            </h2>
+          ) : (
+            <ReactTyped
+              className="text-4xl py-1.5 md:py-0"
+              strings={["Hi", "Hello", "Hóla"]}
+              typeSpeed={40}
+              backSpeed={50}
+              loop
+            />
+          )}
+          <div className="flex items-center">
+            <ul className="flex space-x-4">
+              <li>
+                <a href="#projects" className="hover:text-sky-500">
+                  Projects
+                </a>
+              </li>
+              <li>
+                <a href="#skills" className="hover:text-sky-500">
+                  Skills
+                </a>
+              </li>
+              <li>
+                <a href="#contacts" className="hover:text-sky-500">
+                  Contact
+                </a>
+              </li>
+            </ul>
+            <div className="flex items-center">
+              {/* Button for smaller screens */}
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                className="ml-4 px-2 py-1 border rounded-lg transition duration-300 sm:hidden"
+              >
+                {darkMode ? <BsFillMoonStarsFill /> : <MdLightMode />}
+              </button>
+
+              {/* Button for larger screens */}
+              <div className="relative hidden sm:block w-16 h-8 ml-3">
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className={`w-full h-full rounded-full transition duration-300 ${
+                    darkMode ? "bg-gray-600" : "bg-gray-200"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-[7px] ${
+                      darkMode ? "left-3" : "left-1"
+                    } w-6 h-6 rounded-full flex items-center justify-center transition-transform duration-300 ${
+                      darkMode
+                        ? "translate-x-full bg-gray-200 rotate-180"
+                        : "bg-gray-800 "
+                    }`}
+                  >
+                    {darkMode ? (
+                      <BsFillMoonStarsFill className="text-gray-800  rotate-180" />
+                    ) : (
+                      <MdLightMode className="text-gray-200" />
+                    )}
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
-          <div className="text-5xl flex justify-center gap-16 py-3 text-gray-600 dark:text-gray-400">
-            <a
-              href="https://www.linkedin.com/in/youssef-ashraf-853a271b4/"
-              target="_blank"
-            >
-              <AiFillLinkedin />
-            </a>
-            <a href="https://github.com/YoussefAshraf001" target="_blank">
-              <AiOutlineGithub />
-            </a>
-            <a href="https://wa.me/+201092201470" target="_blank">
-              <AiOutlineWhatsApp />
-            </a>
-          </div>
-          <div className="mx-auto w-80 h-80 relative mt-[22px] md:h-96 md:w-96">
-            <img
-              className="rounded-full"
-              src="/hero-image.jpg"
-              layout="fill"
-              objectFit="cover"
-            />
-          </div>
+        </nav>
+      </header>
 
-          <div className="flex justify-center py-10">
-            <a
-              href="https://drive.google.com/file/d/1Kbyt5lClRkIQcHLUUGog7Brsc4_EjFhb/view?usp=drive_link"
-              target="#"
-              // class="inline-flex rounded-md shadow-sm bg-purple-700"
+      <main
+        ref={mainRef}
+        className={`text-center relative ${
+          darkMode ? "bg-gray-900" : "bg-white"
+        } transition-colors duration-300`}
+      >
+        <section
+          id="landing"
+          className="flex flex-col items-center justify-center bg-cover bg-center h-screen"
+          style={{
+            backgroundImage: "url('hero-bg.png')",
+          }}
+        >
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="relative z-10">
+            <h2
+              className={`text-6xl font-semibold text-white ${
+                triggerAnimation ? "animate-disintegrate" : ""
+              }`}
             >
-              <button
-                type="button"
-                class="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-[#8788ed] transition ease-in-out duration-150 cursor-pointer"
+              Youssef Ashraf
+            </h2>
+            <p
+              className={`text-2xl mt-4 text-white ${
+                triggerAnimation ? "animate-disintegrate" : ""
+              }`}
+            >
+              Front End Developer
+            </p>
+            <div
+              className={`flex justify-center space-x-4 mt-6 text-3xl text-white ${
+                triggerAnimation ? "animate-disintegrate" : ""
+              }`}
+            >
+              <a
+                href="https://www.linkedin.com/in/youssef-ashraf-853a271b4/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors duration-300 hover:text-blue-600"
               >
-                <svg
-                  class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                Download CV
-              </button>
-            </a>
+                <AiFillLinkedin
+                  className="hover:scale-125 ease-in-out duration-300"
+                  size={50}
+                />
+              </a>
+              <a
+                href="https://github.com/YoussefAshraf001"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`transition-colors ${
+                  darkMode ? "hover:text-gray-400" : "hover:text-gray-600"
+                }`}
+              >
+                <AiOutlineGithub
+                  className="hover:scale-125 ease-in-out duration-300"
+                  size={50}
+                />
+              </a>
+              <a
+                href="https://wa.me/+201092201470"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors duration-300 hover:text-green-500"
+              >
+                <AiOutlineWhatsApp
+                  className="hover:scale-125 ease-in-out duration-300"
+                  size={50}
+                />
+              </a>
+            </div>
+            <div
+              className={`${triggerAnimation ? "animate-disintegrate" : ""}`}
+            >
+              <DownloadButton />
+            </div>
           </div>
         </section>
-        <br />
+      </main>
 
-        {/* SKILL SECTION */}
-        <section id="skills">
-          <div className="lg:flex px-6 gap-5">
-            <div className="text-center shadow-lg p-10 rounded-xl my-10 flex-1 border-[2px] border-[#02348f]">
-              <img
-                src="/Others/design.png"
-                className="mx-auto"
-                width={100}
-                height={120}
+      <section id="skills" className="py-10 px-10">
+        <div className="py-4">
+          <div className="border-[1px] border-white m-4 bg-gray-300 h-[1px]" />
+        </div>
+        <h3 className="text-3xl font-bold text-center mb-6">Skills</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Skill Card */}
+          <div
+            className={`shadow-lg p-6 rounded-lg text-center ${
+              darkMode ? "bg-gray-800" : "bg-white"
+            }`}
+          >
+            <div className="mx-auto mb-4 w-24 h-24">
+              <MdDraw
+                size={100}
+                className={`${darkMode ? "text-white" : "text-blue-400"}`}
               />
-              <h4 className="text-[#446cb5] text-lg font-bold pt-8 pb-2">
-                Beautiful Designs
-              </h4>
-              <p className="text-white py-2">Creating elegant designs.</p>
-              <h4 className="py-2 text-[#446cb5]">
-                Design Tools I use for UI/UX
-              </h4>
-              <p className="text-white">Figma</p>
-              <p className="text-white">Adobe XD</p>
-              <p className="text-white">Photoshop</p>
             </div>
-            <div className=" text-center shadow-lg p-10 rounded-xl my-10  flex-1 border-[2px] border-[#0c8a7f]">
-              <img
-                src="/Others/skills.png"
-                className="mx-auto"
-                width={120}
-                height={120}
+
+            <h4
+              className={`${
+                darkMode ? "text-blue-300" : "text-black"
+              } text-lg font-bold`}
+            >
+              Beautiful Designs
+            </h4>
+            <p className="py-2">Creating elegant designs.</p>
+            <h4 className={`${darkMode ? "text-blue-300" : "text-black"} py-2`}>
+              Design Tools I use
+            </h4>
+            <ul className="space-y-3">
+              <li className="flex justify-center items-center">
+                <div className="mr-2 flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="0px"
+                    y="0px"
+                    width="30"
+                    height="30"
+                    viewBox="0 0 100 100"
+                  >
+                    <path
+                      fill="#52bea0"
+                      d="M39,88.649L39,88.649c-7.18,0-13-5.82-13-13l0,0c0-7.18,5.82-13,13-13h13v13 C52,82.829,46.18,88.649,39,88.649z"
+                    ></path>
+                    <path
+                      fill="#f599a0"
+                      d="M65.5,37.649H52v-25h13.5c6.904,0,12.5,5.596,12.5,12.5l0,0C78,32.052,72.404,37.649,65.5,37.649z"
+                    ></path>
+                    <path
+                      fill="#e85654"
+                      d="M38.5,12.649H52v25H38.5c-6.904,0-12.5-5.596-12.5-12.5l0,0C26,18.245,31.596,12.649,38.5,12.649z"
+                    ></path>
+                    <path
+                      fill="#787ab5"
+                      d="M38.5,37.649H52v25H38.5c-6.904,0-12.5-5.596-12.5-12.5l0,0C26,43.245,31.596,37.649,38.5,37.649z"
+                    ></path>
+                    <circle
+                      cx="65.5"
+                      cy="51.149"
+                      r="11.5"
+                      fill="#39c1d7"
+                    ></circle>
+                    <path
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      stroke-width="2"
+                      d="M39,88.649L39,88.649c-7.18,0-13-5.82-13-13l0,0c0-7.18,5.82-13,13-13h13v13C52,82.829,46.18,88.649,39,88.649z"
+                    ></path>
+                    <path
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      d="M42.5,83.397 c-1.067,0.483-2.252,0.752-3.5,0.752l0,0c-4.694,0-8.5-3.806-8.5-8.5l0,0"
+                    ></path>
+                    <path
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      d="M46.212,80.149 c-0.34,0.544-0.741,1.047-1.192,1.5"
+                    ></path>
+                    <path
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      d="M47.5,72.149v3.5 c0,0.512-0.045,1.013-0.132,1.5"
+                    ></path>
+                    <path
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      d="M47.5,67.149v2"
+                    ></path>
+                    <path
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      stroke-width="2"
+                      d="M65.5,37.649H52v-25h13.5c6.904,0,12.5,5.596,12.5,12.5l0,0C78,32.052,72.404,37.649,65.5,37.649z"
+                    ></path>
+                    <path
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      d="M65.5,17.149 c4.418,0,8,3.582,8,8l0,0"
+                    ></path>
+                    <path
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      d="M56.86,17.149h5.64"
+                    ></path>
+                    <path
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      stroke-width="2"
+                      d="M38.5,12.649H52v25H38.5c-6.904,0-12.5-5.596-12.5-12.5l0,0C26,18.245,31.596,12.649,38.5,12.649z"
+                    ></path>
+                    <path
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      stroke-width="2"
+                      d="M38.5,37.649H52v25H38.5c-6.904,0-12.5-5.596-12.5-12.5l0,0C26,43.245,31.596,37.649,38.5,37.649z"
+                    ></path>
+                    <circle
+                      cx="65.5"
+                      cy="51.149"
+                      r="11.5"
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      stroke-width="2"
+                    ></circle>
+                    <path
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      d="M60.138,46.649 c1.284-1.528,3.21-2.5,5.362-2.5"
+                    ></path>
+                    <path
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      d="M59.174,54.149 c-0.432-0.909-0.674-1.926-0.674-3"
+                    ></path>
+                    <path
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      d="M70.862,55.649 c-1.284,1.528-3.21,2.5-5.362,2.5c-1.074,0-2.091-0.242-3-0.674"
+                    ></path>
+                    <path
+                      fill="none"
+                      stroke="#1f212b"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      d="M72.5,51.149 c0,0.695-0.101,1.366-0.29,2"
+                    ></path>
+                  </svg>
+                </div>
+
+                <span>Figma</span>
+              </li>
+
+              <li className="flex justify-center items-center">
+                <DiPhotoshop
+                  size={30}
+                  className={`mr-2 ${
+                    darkMode ? "text-[#7663f1]" : "text-[#3C327B]"
+                  }`}
+                />
+                Adobe Photoshop
+              </li>
+              <li className="flex justify-center items-center">
+                <SiAdobexd size={30} className="mr-2 text-[#fa3185]" />
+                <span>Adobe XD</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Skill Card */}
+          <div
+            className={`shadow-lg p-6 rounded-lg text-center ${
+              darkMode ? "bg-gray-800" : "bg-white"
+            }`}
+          >
+            <div className="mx-auto mb-4 w-24 h-24">
+              <IoCodeSlashOutline
+                size={100}
+                className={`${darkMode ? "text-white" : "text-blue-400"}`}
               />
-              <h4 className="text-teal-600 text-lg font-medium pb-2 pt-8 ">
-                Technologies I'm Using
-              </h4>
-              <ul className="items-center text-white">
-                <p>HTML</p>
-                <p>Javascript</p>
-                <p>CSS</p>
-                <p>Tailwind CSS</p>
-                <p>React</p>
-                <p>Next.js</p>
-                <p>API</p>
-              </ul>
             </div>
-            <div className="text-center shadow-lg p-10 rounded-xl my-10 flex-1 border-[2px] border-[#027dc6]">
-              <img
-                src="/Others/company1.png"
-                className="mx-auto mt-5"
-                width={150}
-                height={150}
+            <h4
+              className={`${
+                darkMode ? "text-blue-300" : "text-black"
+              } text-lg font-bold`}
+            >
+              Technologies
+            </h4>
+            <div className="grid grid-cols-2">
+              <div className="mt-2">
+                <p
+                  className={`${
+                    darkMode ? "text-blue-300" : "text-black underline"
+                  } font-normal text-lg`}
+                >
+                  Languages
+                </p>
+                <ul className="mt-2 space-y-1">
+                  <li>HTML</li>
+                  <li>CSS</li>
+                  <li>JavaScript</li>
+                </ul>
+              </div>
+              <div className="mt-2">
+                <p
+                  className={`${
+                    darkMode ? "text-blue-300" : "text-black underline"
+                  } font-normal text-lg`}
+                >
+                  Frameworks
+                </p>
+
+                <ul className="mt-2 space-y-1">
+                  <li>ReactJS</li>
+                  <li>Next.js</li>
+                  <li>Redux</li>
+                  <li>Bootstrap</li>
+                  <li>Tailwind CSS</li>
+                  <li>SCSS</li>
+                  <li>API Integration</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          {/* Skill Card */}
+          <div
+            className={`shadow-lg p-6 rounded-lg text-center ${
+              darkMode ? "bg-gray-800" : "bg-white"
+            }`}
+          >
+            <div className="w-full flex justify-center items-center">
+              <BsPersonWorkspace
+                size={100}
+                className={`${darkMode ? "text-white" : "text-blue-400"}`}
               />
-              <h4 className="text-[#4c9fd2] text-lg font-bold pt-8 pb-2">
-                Work Experience
-              </h4>
-              <p className="py-1 font-semibold text-white">
-                Internship at Roche Pharmaceutical company
+            </div>
+            <h4
+              className={`${
+                darkMode ? "text-blue-300" : "text-black"
+              } text-lg font-bold pt-8 pb-2`}
+            >
+              Work Experience
+            </h4>
+            <div className="flex flex-col justify-center items-center">
+              <p className="py-2">
+                Internship at Roche Pharmaceutical
                 <br></br>
                 (03/2021 - 08/2022)
               </p>
-              <br></br>
-              <h4 className="text-[#4c9fd2] text-lg font-bold pb-2">
-                {" "}
-                Summary
-              </h4>
-              <p className="text-white">
-                Develop a full-stack, fully responsive website using ReactJS. as
-                well as integrate their own medical database coupled with a
-                machine intelligence model to determine the critical state of a
-                patient
-              </p>
-              {/* <p className="text-white">
-              I was a part of a team that got asked to develop a full-stack,
-                fully responsive website using ReactJS for its front-end and
-                Django as the database side. as well as integrate their own
-                medical database coupled with a machine intelligence model to
-                determine the critical state of a patient using a series of
-                questions.
-              </p> */}
-            </div>
-
-            <div className="text-center shadow-lg p-10 rounded-xl my-10 flex-1 border-[2px] border-[#bf1c31]">
-              <img
-                src="/Others/education.png"
-                className="mx-auto"
-                width={140}
-                height={100}
-              />
-              <h4 className="text-red-700 text-lg font-semibold pt-3 pb-2">
-                Academic
-              </h4>
-              <p className="py-2 font-semibold text-white">
-                Bachelor's Degrees in Computer Science
+              <p className="py-2">
+                Front-end Developer Freelancer
                 <br></br>
-                (2018 - 2023) at Nile University
+                (02/2022 - 06/2023)
               </p>
-              <h4 className="pt-4 pb-1 text-red-700 lg:flex-1 font-semibold">
-                Graduation Project
-              </h4>
-
-              <p className="text-white font-semibold">
-                ERSAP: Adaptive and Efficient Al Platform for the Emergency
-                Department
-              </p>
-              <h4 className="pt-4 text-red-700 lg:flex-1 font-semibold">
-                Other Achievements
-              </h4>
-              <p className="text-white py-1 font-semibold">
-                First Place at NU Biomedical Informatics Competition
+              <p className="py-2">
+                Junior Front-end Developer and UI/UX Designer at Tactful
+                <br></br>
+                (06/2023 - 09/2024)
               </p>
             </div>
           </div>
-        </section>
 
-        {/* PROJECTS SECTION */}
-        <section id="projects">
-          <div className="px-6">
-            <h3 className="text-3xl pt-5 dark:text-white font-bold">
-              PROJECTS
-            </h3>
-            <p className="text-md py-2 leading-8 text-gray-800 dark:text-gray-200">
-              Others projects will be uploaded as soon as they are furnished and
-              suitable for
-              <span className="text-teal-500"> production. </span>
+          <div
+            className={`shadow-lg p-6 rounded-lg text-center ${
+              darkMode ? "bg-gray-800" : "bg-white"
+            }`}
+          >
+            <div className="w-full flex justify-center items-center">
+              <HiAcademicCap
+                size={100}
+                className={`${darkMode ? "text-white" : "text-blue-400"}`}
+              />
+            </div>
+            <h4
+              className={`${
+                darkMode ? "text-blue-300" : "text-black"
+              } text-lg font-semibold pt-3 pb-2`}
+            >
+              Academic
+            </h4>
+            <p>
+              Bachelor's Degrees in Computer Science
+              <br></br>
+              (2018 - 2023) at Nile University
+            </p>
+            <h4
+              className={`${
+                darkMode ? "text-blue-300" : "text-black"
+              } pt-4 pb-1 lg:flex-1 font-semibold`}
+            >
+              Graduation Project
+            </h4>
+
+            <p>
+              ERSAP: Adaptive and Efficient Al Platform for the Emergency
+              Department
+            </p>
+            <h4
+              className={`${
+                darkMode ? "text-blue-300" : "text-black"
+              } pt-4 lg:flex-1 font-semibold`}
+            >
+              Other Achievements
+            </h4>
+            <p className="py-1">
+              First Place at NU Biomedical Informatics Competition
             </p>
           </div>
-          {/* for all the projects */}
-          <div className="flex flex-col gap-7 py-10 lg:flex-row lg:flex-wrap mx-auto px-6">
-            {/* 1st PROJECT: AlphaX */}
-            <div className="border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full bg-black text-white hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web1.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
-                  Netflix Clone
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  AlphaX is designed to present you with the newest release and
-                  pick your taste and preferences from multiple catagories.Made
-                  with a Firebase back-end and Firebase Authentication to give
-                  signing up and login functionalities. Moreover, being able to
-                  store user specific data with a React front-end and a Firebase
-                  back-end. We use Firestore which is cloud storage with
-                  Firebase to save data.
-                </p>
-                <p class="mb-0.5 md:mb-1 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">
-                    React, Tailwind CSS, Firbase and FireStore{" "}
-                  </span>
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base border-2 border-[#083344] border-solid px-2 rounded-full">
-                  API:{" "}
-                  <span class="font-light text-sm">
-                    The Movie Database (TMDB){" "}
-                  </span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a
-                    href="https://alphax-netflix-clone.vercel.app/"
-                    target="_blank"
-                  >
-                    <div
-                      class="flex items-center gap-1 text-base  font-regular underline"
-                      bis_skin_checked="1"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        {" "}
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/AlphaX-Netflix-Clone"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* 2nd PROJECT: The Dream Room */}
-            <div className="border-[2px] border-white text-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web5.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl dashed">
-                  NASA's Dream Room
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  With access to a vast collection of data and resources. By
-                  leveraging this API, developers can retrieve information about
-                  space missions, astronomical data, satellite imagery, and much
-                  more. This project will be your ultimate cosmic playground. It
-                  will allow you to explore and understand the vast expanses of
-                  our universe with just a few clicks. So go ahead and get lost
-                  in space.
-                </p>
-                <p class="mb-0.5 md:mb-1 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">React, HTML and CSS </span>
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base border-2 border-[#083344] border-solid px-2 rounded-full">
-                  API: <span class="font-light text-sm">NASA Open API </span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a
-                    href="https://the-dream-room-nasa-nwkke9be2-youssef-ashraf.vercel.app/"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base font-regular underline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        {" "}
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/The-Dream-Room--NasaAPI"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* 3rd PROJECT: To Do List (Harry Potter Edition) */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web6.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class=" mb-4 font-medium text-start text-xl md:text-2xl">
-                  To Do List
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  A Hogwarts-inspired To-Do app seems like a dream come true.
-                  This app could make even the most mundane errands feel
-                  enchanting. A touch of magic mixed with everyday organization
-                  - that's what this quirky Harry Potter themed to-do app could
-                  bring to our lives!
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">React, HTML and CSS</span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a
-                    href="https://to-do-list-omega-plum.vercel.app/"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base font-regular underline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        {" "}
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/To-Do-List_-HarryPotterEdition-"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* 4th PROJECT: Weather App */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full  hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web4.jpg"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
-                  Weather App
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  It's like having your own personal meteorologist in the palm
-                  of your hand! This nifty little app gives you detailed and
-                  accurate weather forecasts for not just your current location,
-                  but also for any city or town around the globe. It provides
-                  real-time updates on temperature, humidity levels, wind speed,
-                  and even precipitation chances. The user interface is clean
-                  and intuitive, making it a breeze to navigate through all the
-                  information.
-                </p>
-                <p class="mb-0.5 md:mb-1 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">
-                    React, HTML and Tailwind CSS{" "}
-                  </span>
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base border-2 border-[#083344] border-solid px-2 rounded-full">
-                  API:{" "}
-                  <span class="font-light text-sm">OpenWeatherMap API</span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a
-                    href="https://weather-app-sigma-five-99.vercel.app/"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base font-regular underline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        {" "}
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/Weather-App"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* 5th PROJECT: The Valley of Fear */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-between w-full  hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web3.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
-                  The Valley of Fear
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  This is a such a minor project but means alot to me.
-                  Showcasing one of my favorite novels, The Valley of Fear. is
-                  the fourth and final Sherlock Holmes novel by British writer
-                  Arthur Conan Doyle featuring the detective Sherlock Holmes
-                  published on February 27, 1915.
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">
-                    HTML, CSS, and JavaScript{" "}
-                  </span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a
-                    href="https://sherlock-holmes-the-valley-of-fear.vercel.app/"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base font-regular underline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        {" "}
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/SherlockHolmes-TheValleyOfFear"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* 6th PROJECT: Online Library Management System */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web2.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
-                  Online Library Management System
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  This is a library management system which is a Web based
-                  Application that is designed to manage all the functions of a
-                  library. It helps librarian to maintain the database of new
-                  books and the books that are borrowed by members along with
-                  their due dates and prices.
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">
-                    HTML, CSS, PHP and MySQL{" "}
-                  </span>
-                </p>
-                <a
-                  className="flex"
-                  href="https://github.com/YoussefAshraf001/Online-Library-Management-System"
-                  target="_blank"
-                >
-                  <div class="flex items-center gap-1 text-base  font-regular underline">
-                    <svg
-                      stroke="currentColor"
-                      fill="currentColor"
-                      stroke-width="0"
-                      viewBox="0 0 1024 1024"
-                      height="1em"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                    </svg>
-                    View Code
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            {/* 7th PROJECT: Questica */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web7.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
-                  Questica
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  Seeking new and engaging ways to challenge yourself ? this is
-                  your sign join us and showcase your skills.
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">React, HTML and CSS </span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a href="https://questica.vercel.app/" target="_blank">
-                    <div class="flex items-center gap-1 text-base font-regular underline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        {" "}
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/Questica"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* 8th PROJECT: Elegant Clothing */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web8.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
-                  Elegant Clothing
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  A high-end boutique that specializes in providing luxurious
-                  and sophisticated apparel for discerning customers. The store
-                  offers a carefully curated selection of designer brands,
-                  showcasing the latest trends in fashion while maintaining a
-                  timeless sense of style.
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">React, HTML and CSS </span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a
-                    href="https://elegant-clothing.vercel.app/"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base font-regular underline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        {" "}
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/Elegant-Clothing"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* 9th PROJECT: Investment Calculator */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web9.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
-                  Investment Calculator
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  The Investment Calculator App is a powerful tool for
-                  individuals looking to make informed financial decisions. This
-                  app provides users with the ability to calculate potential
-                  investment returns based on various factors such as initial
-                  investment amount, expected rate of return, and time horizon.
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">React, HTML and CSS </span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a
-                    href="https://investment-calculator-nine-ecru.vercel.app/"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base font-regular underline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        {" "}
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/Investment-Calculator"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* 10th PROJECT: Time Game */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web10.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
-                  Time Game
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  People seek out new ways to challenge their cognitive
-                  abilities and improve their time management skills. These apps
-                  typically feature a variety of levels or challenges that
-                  require the player to complete tasks within a certain
-                  timeframe, testing their ability to make quick decisions and
-                  prioritize effectively.
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">React, HTML and CSS </span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a href="https://time-game-one.vercel.app/" target="_blank">
-                    <div class="flex items-center gap-1 text-base font-regular underline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        {" "}
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/Time-Game"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* 11th PROJECT: Quiz App */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web11.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
-                  Quiz App
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  The Quiz App is a tool designed to test users' knowledge and
-                  skills through a series of engaging quizzes. With its
-                  user-friendly interface, the Quiz App provides a seamless
-                  experience for users as they navigate through different quiz
-                  categories and questions.
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">React, HTML and CSS </span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a
-                    href="https://quiz-app-youssef-ashraf-sedkis-projects.vercel.app/"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base font-regular underline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        {" "}
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/Quiz-App"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-            {/* 12th PROJECT: Project Management */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1 min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web12.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
-                  Project Management
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  An App Designed to improve businesses and individuals
-                  efficiently plan, track, and manage projects from inception to
-                  completion.
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">React, HTML and CSS </span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a
-                    href="https://project-management-sandy-phi.vercel.app/"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base font-regular underline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        {" "}
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/Project-Management"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* 13th PROJECT: Tic-Tac-Toe */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web13.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
-                  Tic-Tac-Toe
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  Tic-Tac-Toe, also known as X and O, is a classic
-                  paper-and-pencil game that has been enjoyed by children and
-                  adults worldwide for centuries. The game is typically played
-                  on a 3x3 grid where two players take turns marking either an
-                  "X" or an "O" in empty squares, with the goal of being the
-                  first to achieve a row of three of their marks either
-                  horizontally, vertically, or diagonally.
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">React, HTML and CSS </span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a
-                    href="https://tic-tac-toe-eta-dun.vercel.app/"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base font-regular underline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/Tic-Tac-Toe"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* 14th PROJECT: PlacePicker */}
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web14.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
-                  Place Picker
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  For travelers looking to easily plan a quick getaway without
-                  the hassle of extensive research, an app that allows users to
-                  pick vacation destinations close to their current location is
-                  a valuable tool. This type of app leverages geolocation
-                  technology to provide tailored suggestions based on proximity,
-                  ensuring convenience and ease in decision-making.
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">React, HTML and CSS </span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a
-                    href="https://place-picker-omega.vercel.app/"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base font-regular underline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/PlacePicker"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="bg-black text-white border-[2px] border-white basis-1/4 flex-1  min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web15.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
-                  Best Eats
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  Best Eats is a React JS website styled completely with
-                  Tailwind CSS. Mobile first responsive design approach using
-                  flexbox and grid layouts. Pulling all of the data/images from
-                  the data.js file to simulate an API response. Filter through
-                  data/images using the javascript filter array method
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">React, Tailwind CSS </span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a href="https://best-eats-ten.vercel.app/" target="_blank">
-                    <div class="flex items-center gap-1 text-base font-regular underline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/Best-Eats
-                    "
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="bg-black text-white border-[2px] border-white basis-1/3 min-h-[570px] overflow-hidden rounded-3xl shadow-2xl flex flex-col justify-between w-full hover:scale-105 transition-all duration-500">
-              <img
-                src="/Projects/web16.png"
-                className="object-cover"
-                width={"100%"}
-                height={"100%"}
-                layout="responsive"
-              />
-              <div class="flex flex-col justify-between items-start flex-1 p-[20px]">
-                <h1 class="mb-4 font-medium text-start text-xl md:text-2xl">
-                  Finatical
-                </h1>
-                <p class="flex-1 mb-3 text-white text-start font-light text-md md:text-lg">
-                  A financial demo app that allows users to buy real-world
-                  financial plans in a safe and controlled environment. This
-                  type of app is particularly beneficial for individuals looking
-                  to enhance their financial literacy, test out investment
-                  strategies, or understand the impact of different financial
-                  decisions. With features such as interactive charts,
-                  customizable portfolios, and simulated market data, users can
-                  gain valuable insights into how various factors may influence
-                  their financial outcomes.
-                </p>
-                <p class="mb-2 md:mb-6 text-heading font-regular text-base">
-                  Uses:{" "}
-                  <span class="font-light text-sm">React, Tailwind CSS </span>
-                </p>
-                <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-                  <a href="https://finatical.vercel.app/" target="_blank">
-                    <div class="flex items-center gap-1 text-base font-regular underline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        class="bi bi-code-slash"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294l4-13zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z" />
-                      </svg>
-                      Live Preview
-                    </div>
-                  </a>
-
-                  <a
-                    href="https://github.com/YoussefAshraf001/Finatical"
-                    target="_blank"
-                  >
-                    <div class="flex items-center gap-1 text-base  font-regular underline">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 1024 1024"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"></path>
-                      </svg>
-                      View Code
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* CONTACT ME */}
-        <hr></hr>
-        <br></br>
-        <div id="contacts" className="dark:text-white px-3">
-          <p className="dark:text-white text-xl">
-            Developed and Designed By
-            <span className="text-sky-600 font-semibold"> Youssef Ashraf</span>
-          </p>
-          <h4 className="py-2">
-            Get In Touch. By pressing any of the following:
-          </h4>
-          <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-            <a href="https://wa.me/+201092201470" target="_blank">
-              <div
-                class="flex items-center gap-1 text-base  font-regular underline"
-                bis_skin_checked="1"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="34"
-                  fill="currentColor"
-                  class="bi bi-whatsapp"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />{" "}
-                </svg>
-                01092201470
-              </div>
-            </a>
-          </div>
-
-          <div class="w-full flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between items-start md:items-center">
-            <a href="mailto:youssefashraf273@gmail.com" target="_blank">
-              <div
-                class="flex items-center gap-1 text-base  font-regular underline"
-                bis_skin_checked="1"
-              >
-                <svg
-                  className="dark:invert"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="34"
-                  viewBox="0 0 24 24"
-                >
-                  {" "}
-                  <g>
-                    {" "}
-                    <path fill="none" d="M0 0h24v24H0z" />{" "}
-                    <path d="M2 5.5V3.993A1 1 0 0 1 2.992 3h18.016c.548 0 .992.445.992.993v16.014a1 1 0 0 1-.992.993H2.992A.993.993 0 0 1 2 20.007V19h18V7.3l-8 7.2-10-9zM0 10h5v2H0v-2zm0 5h8v2H0v-2z" />{" "}
-                  </g>{" "}
-                </svg>
-                youssefashraf273@gmail.com
-              </div>
-            </a>
-          </div>
-          <br />
-          <div className="relative flex justify-end bottom-3 right-4">
-            <a href="#beginning">↑ BACK TO THE TOP ↑</a>
-          </div>
-          <br />
         </div>
-      </main>
+        <div className="py-4 pb-0">
+          <div className="border-[1px] border-white m-4 bg-gray-300 h-[1px]" />
+        </div>
+      </section>
+
+      <section id="projects" className="px-6">
+        <h3 className="text-3xl font-bold text-center mb-6">Projects</h3>
+        <Tabs
+          tabs={tabs}
+          selectedTab={selectedTab}
+          onTabSelect={setSelectedTab}
+          mode={darkMode}
+        />
+
+        {loading ? (
+          <div className="flex justify-center items-center h-48">
+            <div className="loading-dots">
+              <span
+                className={`inline-block w-[10px] h-[10px] mx-5 rounded-[50%] ${
+                  darkMode ? "bg-white" : "bg-sky-600"
+                } animate-bounce`}
+              ></span>
+              <span
+                className={`inline-block w-[10px] h-[10px] mx-5 rounded-[50%] ${
+                  darkMode ? "bg-white" : "bg-sky-600"
+                } animate-bounce`}
+              ></span>
+              <span
+                className={`inline-block w-[10px] h-[10px] mx-5 rounded-[50%] ${
+                  darkMode ? "bg-white" : "bg-sky-600"
+                } animate-bounce`}
+              ></span>
+            </div>
+          </div>
+        ) : (
+          <div
+            className={`grid grid-cols-1 gap-7 py-3 lg:grid-cols-3 mx-auto px-6 ${
+              fade ? "fade-enter" : "fade-exit"
+            }`}
+          >
+            {showProjects &&
+              filteredProjects.map((project, index) => (
+                <div
+                  key={index}
+                  className={`shadow-lg rounded-lg overflow-hidden flex flex-col ${
+                    darkMode
+                      ? "bg-gray-800 text-gray-200"
+                      : "bg-white text-gray-800"
+                  }`}
+                >
+                  <img
+                    src={project.imageUrl}
+                    className="object-cover h-48 w-full"
+                    alt={project.title}
+                  />
+                  <div className="flex flex-col flex-1 p-5">
+                    <h1 className="mb-2 font-medium text-xl md:text-2xl">
+                      {project.title}
+                    </h1>
+                    <p className="flex-1 mb-3 font-light text-md md:text-lg">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-col mt-auto">
+                      {project.api && (
+                        <p
+                          className={`text-heading font-regular text-center border-2 ${
+                            darkMode ? " border-sky-600 " : "border-sky-400 "
+                          }border-solid px-2 rounded-full mb-2`}
+                        >
+                          API:{" "}
+                          <span className="font-light text-sm">
+                            {project.api}
+                          </span>
+                        </p>
+                      )}
+                      <p className="text-heading font-regular text-base">
+                        Uses:{" "}
+                        <span className="font-light text-sm">
+                          {project.uses}
+                        </span>
+                      </p>
+                    </div>
+                    <div
+                      className={`${
+                        !project.liveLink ? "py-[18px] px-12" : ""
+                      } flex justify-center items-center mt-4 w-full`}
+                    >
+                      {project.liveLink ? (
+                        <a
+                          href={project.liveLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`inline-flex items-center gap-1  ${
+                            darkMode
+                              ? "bg-sky-600 border-2 border-sky-600 hover:text-white"
+                              : "bg-sky-400 border-2 border-sky-400 hover:text-sky-500"
+                          } text-white hover:bg-transparent py-1 px-12 rounded-full shadow-md hover:scale-125 ease-in-out transition duration-300`}
+                        >
+                          <CiPlay1 className="text-2xl" />
+                          Start App
+                        </a>
+                      ) : (
+                        <button
+                          onClick={handleNoLinkClick}
+                          className={`inline-flex items-center gap-1 py-1 px-12 rounded-full shadow-md border-2 border-gray-400 cursor-not-allowed transition-all duration-300 transform ${
+                            isClicked
+                              ? "animate-shake bg-red-500 border-red-500 text-white"
+                              : "bg-teal-600 text-white border-teal-600 opacity-50"
+                          }`}
+                        >
+                          {isClicked ? (
+                            <IoIosTimer className="text-2xl" />
+                          ) : (
+                            <CiPlay1 className="text-2xl" />
+                          )}
+                          {isClicked ? "Coming Soon" : "Start App"}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+        )}
+      </section>
+
+      <section id="contacts" className="my-10">
+        <h3 className="text-3xl font-bold text-center">Get in Touch</h3>
+        <p className="text-center">You can reach me via:</p>
+        <div className="flex flex-col items-center mt-4 space-y-2">
+          <a
+            href="mailto:youssefashraf273@gmail.com"
+            className="flex items-center px-4 py-2 rounded-lg bg-teal-500 text-white hover:bg-teal-600 transition"
+          >
+            <FaEnvelope className="mr-2" />
+            youssefashraf273@gmail.com
+          </a>
+          <a
+            href="https://wa.me/+201092201470"
+            className="flex items-center px-4 py-2 rounded-lg bg-teal-500 text-white hover:bg-teal-600 transition"
+          >
+            <FaWhatsapp className="mr-2" />
+            01092201470
+          </a>
+        </div>
+      </section>
+
+      <div className="flex justify-end p-4">
+        <a href="#landing" className="text-teal-500 hover:underline">
+          ↑ BACK TO THE TOP ↑
+        </a>
+      </div>
+
+      <footer
+        className={`text-center py-4 ${
+          darkMode ? "bg-gray-800" : "bg-gray-200"
+        }`}
+      >
+        <p>
+          Developed and Designed by{" "}
+          <span className="font-semibold">Youssef Ashraf</span>
+        </p>
+      </footer>
     </div>
   );
-}
+};
+
+export default Home;

@@ -35,7 +35,7 @@ h2 {
 }
 
 h3 {
-  font-family: "QSDash";
+  font-family: "QsBook";
 }
 
 h4 {
@@ -50,11 +50,108 @@ html,
 body {
   padding: 0;
   margin: 0;
-  /* font-family: "QsBook"; */
+  scroll-behavior: smooth;
+}
+
+body {
+  transition: background-color 0.3s ease;
+  background-color: white; /* Light mode background */
+}
+
+body.dark-mode {
+  background-color: black; /* Dark mode background */
 }
 
 * {
   /* box-sizing: content-box; */
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.452) black;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.fade-enter {
+  animation: fadeIn 0.5s forwards; /* Use forwards to retain final state */
+}
+
+.fade-exit {
+  animation: fadeOut 0.5s forwards;
+}
+
+.loading-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes disintegrate {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-disintegrate {
+  animation: disintegrate 1s ease forwards;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+  75% {
+    transform: translateX(-6px);
+  }
+  100% {
+    transform: translateX(6px);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out infinite;
 }
