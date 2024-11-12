@@ -730,7 +730,7 @@ export const Home = () => {
                           className={`inline-flex items-center gap-1 py-1 px-12 rounded-full shadow-md border-2 border-gray-400 cursor-not-allowed transition-all duration-300 transform ${
                             isClicked
                               ? "animate-shake bg-red-500 border-red-500 text-white"
-                              : "bg-teal-600 text-white border-teal-600 opacity-50"
+                              : "bg-sky-600 text-white border-sky-600 opacity-50"
                           }`}
                         >
                           {isClicked ? (
@@ -755,14 +755,14 @@ export const Home = () => {
         <div className="flex flex-col items-center mt-4 space-y-2">
           <a
             href="mailto:youssefashraf273@gmail.com"
-            className="flex items-center px-4 py-2 rounded-lg bg-teal-500 text-white hover:bg-teal-600 transition"
+            className="flex items-center px-4 py-2 rounded-lg bg-sky-500 text-white hover:bg-sky-600 transition"
           >
             <FaEnvelope className="mr-2" />
             youssefashraf273@gmail.com
           </a>
           <a
             href="https://wa.me/+201092201470"
-            className="flex items-center px-4 py-2 rounded-lg bg-teal-500 text-white hover:bg-teal-600 transition"
+            className="flex items-center px-4 py-2 rounded-lg bg-sky-500 text-white hover:bg-sky-600 transition"
           >
             <FaWhatsapp className="mr-2" />
             01092201470
@@ -771,7 +771,7 @@ export const Home = () => {
       </section>
 
       <div className="flex justify-end p-4">
-        <a href="#landing" className="text-teal-500 hover:underline">
+        <a href="#landing" className="text-sky-500 hover:underline">
           ↑ BACK TO THE TOP ↑
         </a>
       </div>
@@ -783,7 +783,7 @@ export const Home = () => {
       >
         <p>
           Developed and Designed by{" "}
-          <span className="font-semibold">Youssef Ashraf</span>
+          <span className="font-semibold text-sky-500">Youssef Ashraf</span>
         </p>
       </footer>
     </div>
