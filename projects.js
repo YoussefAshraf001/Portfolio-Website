@@ -22,7 +22,7 @@ export const projects = [
     type: "Real-World",
   },
   {
-    imageUrl: "/Projects/soon.avif",
+    imageUrl: "",
     title: "Facebook Clone",
     description:
       "Welcome to my exciting Facebook Clone project! Here, you can connect with friends and family through customizable profiles and engage in real-time messaging.",
@@ -32,17 +32,17 @@ export const projects = [
     codeLink: "",
     type: "Real-World",
   },
-  {
-    imageUrl: "/Projects/soon.avif",
-    title: "Steam Clone",
-    description:
-      "My Steam Clone is a digital platform for purchasing, playing, and managing games, with social features like multiplayer, profiles, and achievements. It offers a seamless gaming experience similar to Steam.",
-    uses: "React, Tailwind Css and Firebase",
-    api: "",
-    liveLink: "",
-    codeLink: "",
-    type: "Real-World",
-  },
+  // {
+  //   imageUrl: "/Projects/soon.avif",
+  //   title: "Steam Clone",
+  //   description:
+  //     "My Steam Clone is a digital platform for purchasing, playing, and managing games, with social features like multiplayer, profiles, and achievements. It offers a seamless gaming experience similar to Steam.",
+  //   uses: "React, Tailwind Css and Firebase",
+  //   api: "",
+  //   liveLink: "",
+  //   codeLink: "",
+  //   type: "Real-World",
+  // },
   {
     imageUrl: "/Projects/web5.png",
     title: "NASA's Dream Room",

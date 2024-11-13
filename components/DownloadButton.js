@@ -9,7 +9,7 @@ const DownloadButton = () => {
   const [checkmarkVisible, setCheckmarkVisible] = useState(false);
 
   const downloadUrl =
-    "https://drive.google.com/uc?id=1tuS9QSKXAR9Bvu_XM24xYC0bu7mP21Ej";
+    "https://drive.google.com/uc?export=download&id=1sW0xxj9pCkP2LFYk00l3ENd3rLmV8Dos";
 
   const handleDownload = async (e) => {
     e.preventDefault();
@@ -31,8 +31,8 @@ const DownloadButton = () => {
       setTimeout(() => {
         setDownloaded(false);
         setCheckmarkVisible(false);
-      }, 2000);
-    }, 2000);
+      }, 5000);
+    }, 5000);
   };
 
   return (

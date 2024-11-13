@@ -155,3 +155,23 @@ body.dark-mode {
 .animate-shake {
   animation: shake 0.5s ease-in-out infinite;
 }
+
+@keyframes fillLiquid {
+  0% {
+    transform: scaleY(0.2);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(0.5);
+    opacity: 0.5;
+  }
+}
+
+/* Ensure smooth transition for progress bar width */
+.progress-bar {
+  transition: width 0.5s ease-in-out;
+}

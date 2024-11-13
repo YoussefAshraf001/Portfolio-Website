@@ -18,6 +18,7 @@ import { ReactTyped } from "react-typed";
 
 import { projects } from "../projects.js";
 import Tabs from "../components/Tabs";
+import ProjectImage from "../components/ProjectImage";
 import DownloadButton from "../components/DownloadButton.js";
 
 export const Home = () => {
@@ -673,11 +674,7 @@ export const Home = () => {
                       : "bg-white text-gray-800"
                   }`}
                 >
-                  <img
-                    src={project.imageUrl}
-                    className="object-cover h-48 w-full"
-                    alt={project.title}
-                  />
+                  <ProjectImage project={project} />
                   <div className="flex flex-col flex-1 p-5">
                     <h1 className="mb-2 font-medium text-xl md:text-2xl">
                       {project.title}
@@ -706,9 +703,7 @@ export const Home = () => {
                       </p>
                     </div>
                     <div
-                      className={`${
-                        !project.liveLink ? "py-[18px] px-12" : ""
-                      } flex justify-center items-center mt-4 w-full`}
+                      className={`flex justify-center items-center mt-6 w-full`}
                     >
                       {project.liveLink ? (
                         <a
@@ -725,21 +720,23 @@ export const Home = () => {
                           Start App
                         </a>
                       ) : (
-                        <button
+                        <a
                           onClick={handleNoLinkClick}
-                          className={`inline-flex items-center gap-1 py-1 px-12 rounded-full shadow-md border-2 border-gray-400 cursor-not-allowed transition-all duration-300 transform ${
+                          className={`inline-flex items-center gap-1 ${
                             isClicked
                               ? "animate-shake bg-red-500 border-red-500 text-white"
                               : "bg-sky-600 text-white border-sky-600 opacity-50"
-                          }`}
+                          } py-1 px-12 rounded-full shadow-md border-2 border-gray-400 cursor-not-allowed transition-all duration-300 transform `}
                         >
-                          {isClicked ? (
+                          {/* {isClicked ? (
                             <IoIosTimer className="text-2xl" />
                           ) : (
                             <CiPlay1 className="text-2xl" />
-                          )}
-                          {isClicked ? "Coming Soon" : "Start App"}
-                        </button>
+                          )} */}
+                          {/* {isClicked ? "Coming Soon" : "Start App"} */}
+                          <IoIosTimer className="text-2xl" />
+                          Coming Soon
+                        </a>
                       )}
                     </div>
                   </div>
@@ -775,17 +772,6 @@ export const Home = () => {
           ↑ BACK TO THE TOP ↑
         </a>
       </div>
-
-      <footer
-        className={`text-center py-4 ${
-          darkMode ? "bg-gray-800" : "bg-gray-200"
-        }`}
-      >
-        <p>
-          Developed and Designed by{" "}
-          <span className="font-semibold text-sky-500">Youssef Ashraf</span>
-        </p>
-      </footer>
     </div>
   );
 };
